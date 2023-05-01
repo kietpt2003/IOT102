@@ -3,15 +3,15 @@
 #include <LiquidCrystal_I2C.h>
 RTC_DS1307 rtc;
 LiquidCrystal_I2C lcd(0X27,16,2); //SCL A5 SDA A4
-char date[7][7] = {"Sun","Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"}; //D˘ng m?ng 2 chi?u ?? l?u th?
+char date[7][7] = {"Sun","Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"}; //D√πng m?ng 2 chi?u ?? l?u th?
 int val; //value cho tempreture
 int tempPin = 0; //trmpreture pin
-int functionNo = 1; //?·nh th? t? h‡m ch?c n?ng (h‡m ??u tiÍn l‡ 1)
-bool isPush = false; //check coi cÛ ?n n˙t function ch?a(bi?n d˘ng ?? l‡m ?i?u ki?n)
-bool isChoose = false; //check coi cÛ ch?n khÙng(ban ??u s? l‡ khÙng vÏ ch?a ch?n)
+int functionNo = 1; //?√°nh th? t? h√†m ch?c n?ng (h√†m ??u ti√™n l√† 1)
+bool isPush = false; //check coi c√≥ ?n n√∫t function ch?a(bi?n d√πng ?? l√†m ?i?u ki?n)
+bool isChoose = false; //check coi c√≥ ch?n kh√¥ng(ban ??u s? l√† kh√¥ng v√¨ ch?a ch?n)
 bool chooseYes = false;
 bool chooseNo = false;
-bool isAlarm = false; //T?t b?t ch?c n?ng b·o th?c(ban ??u t?t)
+bool isAlarm = false; //T?t b?t ch?c n?ng b√°o th?c(ban ??u t?t)
 
 
 //Button for setting second
@@ -30,7 +30,7 @@ const int butConfirm = 9;
 const int redLed = 10;
 //LED YELLOW Nh?n di?n ?ang ? mode set alarm
 const int yellowLed = 11;
-//LED REDALARM ch?p thay cho b·o th?c reng
+//LED REDALARM ch?p thay cho b√°o th?c reng
 const int redAlarm = 12;
 
 
@@ -40,7 +40,7 @@ int hh = 0;
 int mm = 0;
 //ss for setting alarm second
 int ss = 0;
-bool isDelete = false; //N?u b·o th?c khÙng delete thÏ s? b·o
+bool isDelete = false; //N?u b√°o th?c kh√¥ng delete th√¨ s? b√°o
 
 
 void setup() {
@@ -72,7 +72,7 @@ void setup() {
 
 
 void loop() {
-  changeMode(); //d˘ng ?? ??i gi?a 2 mode
+  changeMode(); //d√πng ?? ??i gi?a 2 mode
 
 
   if (functionNo == 1) {
@@ -89,7 +89,7 @@ void loop() {
     } else if (isChoose && chooseNo) {
       lcd.print("No");
       confirmYesNo();
-    } else if (!isChoose) { //Tr??ng h?p khÙng ch?n m‡ nh?n back luÙn
+    } else if (!isChoose) { //Tr??ng h?p kh√¥ng ch?n m√† nh?n back lu√¥n
       confirmYesNo();
     }
   } else if (functionNo == 3) {
@@ -106,7 +106,7 @@ void loop() {
   if (isAlarm) {
     DateTime timeNow = rtc.now();
     if (hh == timeNow.hour() && mm == timeNow.minute() && ss == timeNow.second()) {
-      for (int i = 0; i < 200; i ++) { //?Ën ch?p ???c kho?ng 4-5s
+      for (int i = 0; i < 200; i ++) { //?√®n ch?p ???c kho?ng 4-5s
         if (digitalRead(redAlarm) == HIGH) {
           digitalWrite(redAlarm, LOW);
         } else {
@@ -137,7 +137,7 @@ void changeMode() {
 
 
 float calculateTemp() { //LM35
-  val = analogRead(tempPin); //??c gi· tr? nhi?t ?? ra, sau ?Û l?u bi?n value(val) ?? tÌnh to·n
+  val = analogRead(tempPin); //??c gi√° tr? nhi?t ?? ra, sau ?√≥ l?u bi?n value(val) ?? t√≠nh to√°n
   float mv = ( val/1023.0)*5000; 
   float cel = mv/10; //?? C
   return cel;
@@ -207,15 +207,15 @@ void digitalClock() {
 }
 
 
-void setAlarm() { //H‡m h?i cÛ mu?n c‡i b·o th?c khÙng, n?u cÛ m?i setDateAlram()
+void setAlarm() { //H√†m h?i c√≥ mu?n c√†i b√°o th?c kh√¥ng, n?u c√≥ m?i setDateAlram()
   lcd.setCursor(0, 0);
   lcd.print("OnOffAlarm(Y/N)");
   lcd.setCursor(0, 1);
-  if (digitalRead(butHour) == HIGH) { //M??n ?? n˙t butHour l‡m choosing yes
+  if (digitalRead(butHour) == HIGH) { //M??n ?? n√∫t butHour l√†m choosing yes
     isChoose = true;
     chooseYes = true;
     chooseNo = false;
-  } else if (digitalRead(butMin) == HIGH) { ////M??n ?? n˙t butMin l‡m choosing no
+  } else if (digitalRead(butMin) == HIGH) { ////M??n ?? n√∫t butMin l√†m choosing no
     isChoose = true;
     chooseYes = false;
     chooseNo = true;
@@ -234,11 +234,11 @@ void confirmYesNo() {
     if (digitalRead(butConfirm) == HIGH && chooseYes) {
       functionNo = 3;
       isAlarm = true;
-    } else if (digitalRead(butConfirm) == HIGH && chooseNo) { //N?u ch?n No thÏ tr? v? Digital Clock v‡ set l?i isChoose th‡nh false
+    } else if (digitalRead(butConfirm) == HIGH && chooseNo) { //N?u ch?n No th√¨ tr? v? Digital Clock v√† set l?i isChoose th√†nh false
       functionNo = 1;
       isChoose = false;
       isAlarm = false;
-    } else if (digitalRead(butConfirm) == HIGH && !chooseYes && !chooseNo) { //Tr??ng h?p khÙng ch?n m‡ nh?n back luÙn
+    } else if (digitalRead(butConfirm) == HIGH && !chooseYes && !chooseNo) { //Tr??ng h?p kh√¥ng ch?n m√† nh?n back lu√¥n
       functionNo = 1;
       isAlarm = false;
     }
@@ -247,7 +247,7 @@ void confirmYesNo() {
 }
 
 
-void setTimeAlarm() { //H‡m h?n gi? b·o th?c
+void setTimeAlarm() { //H√†m h?n gi? b√°o th?c
   showSettingTime();
   if (digitalRead(butHour) == HIGH) {
     if (hh >= 0 && hh <= 24) {
@@ -274,9 +274,9 @@ void setTimeAlarm() { //H‡m h?n gi? b·o th?c
 }
 
 
-void showSettingTime() { //D˘ng ?? xu?t ra LCD thgian ?ang nh?p
+void showSettingTime() { //D√πng ?? xu?t ra LCD thgian ?ang nh?p
   lcd.setCursor(0, 1);
-  if (hh >= 0 && hh <= 24) { //ifelse n‡y ?? ch?n LCD print ra >= 25
+  if (hh >= 0 && hh <= 24) { //ifelse n√†y ?? ch?n LCD print ra >= 25
     if (hh <= 9) {
       lcd.print(0);
       lcd.setCursor(1, 1);
@@ -295,7 +295,7 @@ void showSettingTime() { //D˘ng ?? xu?t ra LCD thgian ?ang nh?p
   lcd.setCursor(3, 1);
 
 
-  if (mm >= 0 && mm <= 60) { //ifelse n‡y ?? ch?n LCD print ra >= 60
+  if (mm >= 0 && mm <= 60) { //ifelse n√†y ?? ch?n LCD print ra >= 60
     if (mm <= 9) {
       lcd.print(0);
       lcd.setCursor(4, 1);
@@ -313,7 +313,7 @@ void showSettingTime() { //D˘ng ?? xu?t ra LCD thgian ?ang nh?p
   lcd.setCursor(6, 1);
 
 
-  if (0 <= ss && ss <= 60) { //ifelse n‡y ?? ch?n LCD print ra >= 60
+  if (0 <= ss && ss <= 60) { //ifelse n√†y ?? ch?n LCD print ra >= 60
     if (ss <= 9) {
       lcd.print(0);
       lcd.setCursor(7, 1);
